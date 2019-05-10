@@ -71,7 +71,7 @@ Response uses the Slack signing secret to restrict access to public endpoints.
 
 When an incident is declared, a 'headline' post is sent to a central channel.
 
-- The default channel is `#incidents` - change `INCIDENT_CHANNEL_NAME` if you want them to be sent somewhere else.
+- The default channel is `incidents` - change `INCIDENT_CHANNEL_NAME` if you want them to be sent somewhere else (note: do not include the #).
 
 ### Bot Name (`INCIDENT_BOT_NAME`)
 
@@ -130,7 +130,7 @@ In the Event Subscriptions page we need to configure the following:
 - In the Request URL enter: `https://<public-url>/slack/event`
 - You need to have the server running and available as Slack sends a challenge to this address and expects a specific response.
 
-- Under the Subcribe to Bot Events section, add the following:
+- Under the Subscribe to Bot Events section, add the following:
   - `app_mention`
   - `pin_added`
   - `pin_removed`
