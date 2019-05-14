@@ -3,8 +3,8 @@ services:
 
   response:
     build:
-      context: .
-      dockerfile: Dockerfile.response
+      context: ../
+      dockerfile: Dockerfile.response.sql
     image: response
     container_name: response
     entrypoint: bash
@@ -14,16 +14,17 @@ services:
     depends_on:
       - db
     environment:
-      POSTGRES: "true"
-    env_file: .env
+      POSTGRES: "false"
+      SQL_SERVER: "true"
+    env_file: ../.env
     volumes:
-      - ./:/app
+      - ../:/app
     stdin_open: true
     tty: true
 
   cron:
     build:
-      context: .
+      context: ../
       dockerfile: Dockerfile.cron
     image: cron
     container_name: cron
@@ -32,14 +33,20 @@ services:
     tty: true
 
   db:
-    image: "postgres:11.2"
-    container_name: postgres
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
+    image: "mcmoe/mssqldocker:latest"
+    container_name: response-sqlserver
+    environment: 
+      SA_PASSWORD: "admin123!"
+      ACCEPT_EULA: "Y"
+      MSSQL_DB: "ResponseDB"
+      MSSQL_USER: "response"
+      MSSQL_PASSWORD: "response123!"
+    ports:
+      - "3433:1433"
 
   tunnel:
     build:
-      context: .
+      context: ../
       dockerfile: Dockerfile.tunnel
     image: argotunnel
     container_name: tunnel
@@ -49,6 +56,3 @@ services:
     depends_on:
       - cron
       - response
-
-volumes:
-  postgres_data:
