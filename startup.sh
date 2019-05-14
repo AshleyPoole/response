@@ -2,7 +2,7 @@
 
 wait_for_db()
 {
-    while ! nc -z db 5432;
+    while ! nc -z db 1433;
     do sleep 1;
     done;
 }
