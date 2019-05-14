@@ -14,12 +14,9 @@ RUN curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sou
 
 # install SQL Server drivers
 RUN apt-get update
-RUN ACCEPT_EULA=Y apt-get install -y libstdc++6
-RUN ACCEPT_EULA=Y apt-get install -y msodbcsql17
-RUN ACCEPT_EULA=Y apt-get install -y mssql-tools
+RUN ACCEPT_EULA=Y apt-get install -y libstdc++6 msodbcsql17 mssql-tools unixodbc-dev
 RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
 RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
-RUN apt-get install -y unixodbc-dev
 
 WORKDIR /app
 COPY requirements.txt /app
