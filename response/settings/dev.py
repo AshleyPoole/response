@@ -19,11 +19,11 @@ if os.environ.get("SQL_SERVER"):
             'ENGINE': 'sql_server.pyodbc',
             'HOST': 'db',
             'PORT': '1433',
-            'USER': 'sa',
-            'PASSWORD': 'admin123!',
+            'USER': 'response',
+            'PASSWORD': 'response123!',
             'NAME': 'ResponseDB',
             'OPTIONS': {
-                'driver': 'ODBC Driver 13 for SQL Server',
+                'driver': 'ODBC Driver 17 for SQL Server',
             }
         }
     }
