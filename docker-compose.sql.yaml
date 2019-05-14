@@ -1,0 +1,49 @@
+version: '3'
+services:
+
+  response:
+    build:
+      context: .
+      dockerfile: Dockerfile.response.sql
+    image: response
+    container_name: response
+    entrypoint: bash
+    command: /app/startup.sh
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      POSTGRES: "false"
+      SQL_SERVER: "true"
+    env_file: .env
+    volumes:
+      - ./:/app
+    stdin_open: true
+    tty: true
+
+  cron:
+    build:
+      context: .
+      dockerfile: Dockerfile.cron
+    image: cron
+    container_name: cron
+    depends_on:
+      - response
+    tty: true
+
+  db:
+    image: "mcr.microsoft.com/mssql/server:2017-latest"
+    container_name: response-sqlserver
+    environment: 
+      SA_PASSWORD: "admin123!"
+      ACCEPT_EULA: "Y"
+
+  ngrok:
+    image: gtriggiano/ngrok-tunnel
+    container_name: ngrok
+    environment:
+      TARGET_HOST: "response"
+      TARGET_PORT: 8000
+    ports:
+      - "4040:4040"
