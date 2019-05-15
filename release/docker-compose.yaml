@@ -16,6 +16,7 @@ services:
     environment:
       POSTGRES: "false"
       SQL_SERVER: "true"
+      TUNNEL_HOSTNAME: "${TUNNEL_HOSTNAME}"
     env_file: ../.env
     volumes:
       - ../:/app
@@ -50,6 +51,8 @@ services:
       dockerfile: Dockerfile.tunnel
     image: argotunnel
     container_name: tunnel
+    entrypoint: bash
+    command: /cloudflare/startup-tunnel.sh
     environment:
       - TUNNEL_URL=http://response:8000
       - TUNNEL_HOSTNAME=${TUNNEL_HOSTNAME}
